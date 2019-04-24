@@ -2,7 +2,7 @@ const todos = [
   {
     task: 'Organize Garage',
     id: 1528817077286,
-    completed: true,
+    completed: false,
   },
   {
     task: 'Bake Cookies',

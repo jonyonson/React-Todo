@@ -4,13 +4,13 @@ import TodoList from './components/TodoComponents/TodoList';
 import Footer from './components/Footer';
 
 import './App.css';
-import todos from './fake-data';
+// import todos from './fake-data';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: todos,
+      data: [],
       value: '',
     };
 
