@@ -36,28 +36,31 @@ class App extends React.Component {
   }
 
   toggleComplete(id) {
-    let item = this.state.data.filter(todo => {
-      return todo.id === id;
+    const todos = this.state.data.map(todo => {
+      if (todo.id === id) {
+        return {
+          task: todo.task,
+          id: todo.id,
+          completed: !todo.completed,
+        };
+      } else {
+        return {
+          task: todo.task,
+          id: todo.id,
+          completed: todo.completed,
+        };
+      }
     });
-    item = item[0];
-    // toggle completed property
-    item.completed = !item.completed ? true : false;
-    // get all todo items except the one we are updating
-    const todos = this.state.data.filter(todo => {
-      return todo.id !== id;
-    });
-    // add the updated item back
-    todos.push(item);
-    // sort the array by time stamp, so updated stays in same place
-    todos.sort((a, b) => (a.id > b.id ? 1 : -1));
-
-    this.setState({
-      data: todos,
-    });
+    this.setState({ data: todos });
   }
 
-  clearCompleted() {
-    console.log('clear completed');
+  clearCompleted(e) {
+    e.preventDefault();
+    // get new array with only items not makrked as completed
+    const incompleteTodos = this.state.data.filter(todo => {
+      return !todo.completed;
+    });
+    this.setState({ data: incompleteTodos });
   }
 
   render() {
@@ -79,4 +82,4 @@ class App extends React.Component {
 export default App;
 
 // TODO
-// 2. clear all completed on click of button
+// 1. empty field creates blank todo
