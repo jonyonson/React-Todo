@@ -2,10 +2,13 @@
 .Todo__list {
   list-style-type: none;
   padding: 0;
+  border-bottom:1px solid rgba(0,0,0,.2);
 }
 
 .Todo__item {
   cursor: pointer;
+  padding: 10px;
+  border-top: 1px solid rgba(0,0,0,.2);
 }
 
 .Todo__item--completed {

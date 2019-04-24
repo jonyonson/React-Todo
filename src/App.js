@@ -1,19 +1,9 @@
 import React from 'react';
-
 import TodoForm from './components/TodoComponents/TodoForm';
 import TodoList from './components/TodoComponents/TodoList';
-const todos = [
-  {
-    task: 'Organize Garage',
-    id: 1528817077286,
-    completed: true,
-  },
-  {
-    task: 'Bake Cookies',
-    id: 1528817084358,
-    completed: false,
-  },
-];
+
+import './App.css';
+import todos from './data';
 
 class App extends React.Component {
   constructor(props) {
@@ -21,12 +11,12 @@ class App extends React.Component {
     this.state = {
       data: todos,
       value: '',
-      todo: { leted: false },
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.toggleComplete = this.toggleComplete.bind(this);
+    this.clearCompleted = this.clearCompleted.bind(this);
   }
 
   handleChange(e) {
@@ -42,24 +32,42 @@ class App extends React.Component {
     };
     const data = [...this.state.data];
     data.push(newTodo);
-    this.setState({
-      data,
-      value: '',
-    });
+    this.setState({ data, value: '' });
   }
 
   toggleComplete(id) {
-    console.log(id);
-    // this.setState({})
+    let item = this.state.data.filter(todo => {
+      return todo.id === id;
+    });
+    item = item[0];
+    // toggle completed property
+    item.completed = !item.completed ? true : false;
+    // get all todo items except the one we are updating
+    const todos = this.state.data.filter(todo => {
+      return todo.id !== id;
+    });
+    // add the updated item back
+    todos.push(item);
+    // sort the array by time stamp, so updated stays in same place
+    todos.sort((a, b) => (a.id > b.id ? 1 : -1));
+
+    this.setState({
+      data: todos,
+    });
+  }
+
+  clearCompleted() {
+    console.log('clear completed');
   }
 
   render() {
     return (
-      <div>
+      <div className="App">
         <h2>Welcome to your Todo App!</h2>
         <TodoForm
           handleSubmit={this.handleSubmit}
           handleChange={this.handleChange}
+          clearCompleted={this.clearCompleted}
           value={this.state.value}
         />
         <TodoList data={this.state.data} toggleComplete={this.toggleComplete} />
@@ -69,3 +77,6 @@ class App extends React.Component {
 }
 
 export default App;
+
+// TODO
+// 2. clear all completed on click of button
