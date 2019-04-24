@@ -2,15 +2,15 @@ import React from 'react';
 import TodoForm from './components/TodoComponents/TodoForm';
 import TodoList from './components/TodoComponents/TodoList';
 import Footer from './components/Footer';
-
+import complete from './components/TodoComponents/complete.svg';
 import './App.css';
-// import todos from './fake-data';
+import todos from './fake-data';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
+      data: todos,
       value: '',
     };
 
@@ -21,7 +21,10 @@ class App extends React.Component {
   }
 
   handleChange(e) {
-    this.setState({ value: e.target.value });
+    // this.setState({ value: e.target.value });
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
   }
 
   addTodo(e) {
@@ -31,9 +34,13 @@ class App extends React.Component {
       id: Date.now(),
       completed: false,
     };
-    const data = [...this.state.data];
-    data.push(newTodo);
-    this.setState({ data, value: '' });
+    // const data = [...this.state.data];
+    // data.push(newTodo);
+    // this.setState({ data, value: '' });
+    this.setState({
+      data: [...this.state.data, newTodo],
+      value: '',
+    });
   }
 
   toggleComplete(id) {
@@ -66,6 +73,7 @@ class App extends React.Component {
 
   render() {
     const anyMarkedComplete = this.state.data.some(todo => !!todo.completed);
+    const allTodosCleared = this.state.data.length === 0;
     return (
       <div className="App">
         <TodoForm
@@ -73,7 +81,16 @@ class App extends React.Component {
           handleChange={this.handleChange}
           value={this.state.value}
         />
-        <TodoList data={this.state.data} toggleComplete={this.toggleComplete} />
+        <TodoList
+          data={this.state.data}
+          toggleComplete={this.toggleComplete}
+          labelClick={this.labelClick}
+        />
+        {allTodosCleared && (
+          <div className="Todo__all-clear">
+            <img className="Todo__all-clear__image" src={complete} alt="" />
+          </div>
+        )}
         <Footer
           clearCompleted={this.clearCompleted}
           showClear={anyMarkedComplete}

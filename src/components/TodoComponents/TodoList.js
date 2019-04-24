@@ -8,7 +8,9 @@ const TodoList = ({ data, toggleComplete }) => {
       todo={todo}
       key={todo.id}
       toggleComplete={toggleComplete}
-      className={todo.completed ? 'Todo__item Todo__item--completed' : 'Todo__item'}
+      className={
+        todo.completed ? 'Todo__item Todo__item--completed' : 'Todo__item'
+      }
     />
   ));
 
