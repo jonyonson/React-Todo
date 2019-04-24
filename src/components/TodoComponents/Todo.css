@@ -1,14 +1,50 @@
 
+.Todo__form {
+  margin-bottom:40px;
+  display: flex;
+}
+
+
+input[type='text'] {
+  border: 1px solid #ddd;
+  min-width: 77%;
+  transition: all ease-in 0.25s;
+  font-size: 17px;
+  padding: 0 10px;
+}
+
+input[type='submit'] {
+  min-width: 21%;
+  line-height: 30px;
+  border-radius: 3px;
+  margin-left: 2%;
+  display: inline-block;
+  padding: 0.2em 1em;
+  font-size: 22px;
+}
+
+input:focus{
+  outline: none;
+  border: 1px solid #a3b1ff;
+}
+
+input::placeholder{
+  color: rgba(0,0,0,0.3);
+  font-style: italic;
+}
+
 .Todo__list {
   list-style-type: none;
   padding: 0;
-  border-bottom:1px solid rgba(0,0,0,.2);
+
 }
 
 .Todo__item {
   cursor: pointer;
   padding: 10px;
-  border-top: 1px solid rgba(0,0,0,.2);
+  background: #e0e8f5;
+  margin: 10px 0;
+  border-radius: 3px;
 }
 
 .Todo__item--completed {

@@ -1,6 +1,7 @@
 import React from 'react';
 import TodoForm from './components/TodoComponents/TodoForm';
 import TodoList from './components/TodoComponents/TodoList';
+import Footer from './components/Footer';
 
 import './App.css';
 import todos from './fake-data';
@@ -14,7 +15,7 @@ class App extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.addTodo = this.addTodo.bind(this);
     this.toggleComplete = this.toggleComplete.bind(this);
     this.clearCompleted = this.clearCompleted.bind(this);
   }
@@ -23,7 +24,7 @@ class App extends React.Component {
     this.setState({ value: e.target.value });
   }
 
-  handleSubmit(e) {
+  addTodo(e) {
     e.preventDefault();
     const newTodo = {
       task: this.state.value,
@@ -67,15 +68,16 @@ class App extends React.Component {
     const anyMarkedComplete = this.state.data.some(todo => !!todo.completed);
     return (
       <div className="App">
-        <h2>Welcome to your Todo App!</h2>
         <TodoForm
-          handleSubmit={this.handleSubmit}
+          addTodo={this.addTodo}
           handleChange={this.handleChange}
-          clearCompleted={this.clearCompleted}
-          showClear={anyMarkedComplete}
           value={this.state.value}
         />
         <TodoList data={this.state.data} toggleComplete={this.toggleComplete} />
+        <Footer
+          clearCompleted={this.clearCompleted}
+          showClear={anyMarkedComplete}
+        />
       </div>
     );
   }
