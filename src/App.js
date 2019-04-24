@@ -3,13 +3,13 @@ import TodoForm from './components/TodoComponents/TodoForm';
 import TodoList from './components/TodoComponents/TodoList';
 
 import './App.css';
-// import todos from './data';
+import todos from './fake-data';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
+      data: todos,
       value: '',
     };
 
@@ -64,8 +64,7 @@ class App extends React.Component {
   }
 
   render() {
-    const containsCompleted = this.state.data.some(x => !!x.completed);
-    // console.log(containsCompleted);
+    const anyMarkedComplete = this.state.data.some(todo => !!todo.completed);
     return (
       <div className="App">
         <h2>Welcome to your Todo App!</h2>
@@ -73,7 +72,7 @@ class App extends React.Component {
           handleSubmit={this.handleSubmit}
           handleChange={this.handleChange}
           clearCompleted={this.clearCompleted}
-          showClear={containsCompleted}
+          showClear={anyMarkedComplete}
           value={this.state.value}
         />
         <TodoList data={this.state.data} toggleComplete={this.toggleComplete} />
