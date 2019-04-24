@@ -1,0 +1,13 @@
+
+.Todo__list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.Todo__item {
+  cursor: pointer;
+}
+
+.Todo__item--completed {
+  text-decoration: line-through;
+}
