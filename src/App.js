@@ -10,7 +10,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: JSON.parse(localStorage.getItem('todos')),
+      data: [],
       value: '',
     };
 
@@ -76,15 +76,14 @@ class App extends React.Component {
     );
   }
 
-  // componentDidMount() {
-  //   if (!!localStorage.getItem('todos')) {
-  //     console.log(typeof localStorage.getItem('todos'));
-  //     // this.setState({
-  //     //   data: loca
-  //     // })
-  //   }
-  //   console.log('now');
-  // }
+  componentDidMount() {
+    if (!!localStorage.getItem('todos')) {
+      console.log(typeof localStorage.getItem('todos'));
+      this.setState({
+        data: JSON.parse(localStorage.getItem('todos')),
+      });
+    }
+  }
 
   render() {
     const anyMarkedComplete = this.state.data.some(todo => !!todo.completed);
