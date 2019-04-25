@@ -2,9 +2,10 @@ import React from 'react';
 import TodoForm from './components/TodoComponents/TodoForm';
 import TodoList from './components/TodoComponents/TodoList';
 import Footer from './components/Footer';
-import complete from './components/TodoComponents/complete.svg';
-import './App.css';
+import complete from './images/complete.svg';
+
 import todos from './fake-data';
+import './App.css';
 
 class App extends React.Component {
   constructor(props) {
