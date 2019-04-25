@@ -86,8 +86,11 @@ class App extends React.Component {
   }
 
   render() {
-    const anyMarkedComplete = this.state.data.some(todo => !!todo.completed);
-    const allTodosCleared = this.state.data.length === 0;
+    const todos = this.state.data;
+    const anyMarkedComplete = todos.some(todo => !!todo.completed);
+    const allTodosCleared = todos.length === 0;
+    const todosPending = todos.filter(todo => !todo.completed).length;
+    const completedTodos = todos.filter(todo => !!todo.completed).length;
     return (
       <div className="App">
         <TodoForm
@@ -95,6 +98,11 @@ class App extends React.Component {
           handleChange={this.handleChange}
           value={this.state.value}
         />
+        {/* <div>
+          {!!todosPending && <p>{todosPending} tasks need to get done.</p>}
+          {!todosPending && <p>You have nothing left to do. Go for a walk!</p>}
+          {!!completedTodos && <p>{completedTodos} tasks marked as done</p>}
+        </div> */}
         <TodoList
           data={this.state.data}
           toggleComplete={this.toggleComplete}
@@ -107,7 +115,9 @@ class App extends React.Component {
         )}
         <Footer
           clearCompleted={this.clearCompleted}
+          completedTodos={completedTodos}
           showClear={anyMarkedComplete}
+          todosPending={todosPending}
         />
       </div>
     );
@@ -115,6 +125,3 @@ class App extends React.Component {
 }
 
 export default App;
-
-// TODO
-// 1. empty field creates blank todo

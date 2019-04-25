@@ -12,7 +12,7 @@ const TodoForm = props => {
         placeholder="What do you need to do today?"
         autoComplete="off"
       />
-      <input type="submit" value="+" />
+      <input type="submit" value="+" disabled={!props.value.length} />
     </form>
   );
 };
