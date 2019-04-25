@@ -4,14 +4,13 @@ import TodoList from './components/TodoComponents/TodoList';
 import Footer from './components/Footer';
 import complete from './images/complete.svg';
 
-import todos from './fake-data';
 import './App.css';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: todos,
+      data: JSON.parse(localStorage.getItem('todos')),
       value: '',
     };
 
@@ -22,7 +21,6 @@ class App extends React.Component {
   }
 
   handleChange(e) {
-    // this.setState({ value: e.target.value });
     this.setState({
       [e.target.name]: e.target.value,
     });
@@ -35,12 +33,9 @@ class App extends React.Component {
       id: Date.now(),
       completed: false,
     };
-    // const data = [...this.state.data];
-    // data.push(newTodo);
-    // this.setState({ data, value: '' });
-    this.setState({
-      data: [...this.state.data, newTodo],
-      value: '',
+
+    this.setState({ data: [...this.state.data, newTodo], value: '' }, () => {
+      localStorage.setItem('todos', JSON.stringify(this.state.data));
     });
   }
 
@@ -60,17 +55,36 @@ class App extends React.Component {
         };
       }
     });
-    this.setState({ data: todos });
+
+    this.setState({ data: todos }, () => {
+      localStorage.setItem('todos', JSON.stringify(this.state.data));
+    });
   }
 
   clearCompleted(e) {
-    e.preventDefault();
     // get new array with only items not makrked as completed
     const incompleteTodos = this.state.data.filter(todo => {
       return !todo.completed;
     });
-    this.setState({ data: incompleteTodos });
+    this.setState(
+      {
+        data: incompleteTodos,
+      },
+      () => {
+        localStorage.setItem('todos', JSON.stringify(this.state.data));
+      }
+    );
   }
+
+  // componentDidMount() {
+  //   if (!!localStorage.getItem('todos')) {
+  //     console.log(typeof localStorage.getItem('todos'));
+  //     // this.setState({
+  //     //   data: loca
+  //     // })
+  //   }
+  //   console.log('now');
+  // }
 
   render() {
     const anyMarkedComplete = this.state.data.some(todo => !!todo.completed);
