@@ -31,7 +31,6 @@ body {
 }
 
 .App__footer {
-  /* border: 1px solid black; */
   padding: 15px 0;
 }
 
@@ -42,9 +41,6 @@ body {
   right: 20px;
   cursor: pointer;
 }
-
-
-
 
 @media (max-width: 500px) {
   #root {
