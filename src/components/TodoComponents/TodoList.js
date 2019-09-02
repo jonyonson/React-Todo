@@ -2,8 +2,8 @@ import React from 'react';
 import Todo from './Todo';
 import './Todo.css';
 
-const TodoList = ({ data, toggleComplete }) => {
-  const todoNode = data.map(todo => (
+const TodoList = ({ todos, toggleComplete }) => {
+  const todoNode = todos.map(todo => (
     <Todo
       todo={todo}
       key={todo.id}
