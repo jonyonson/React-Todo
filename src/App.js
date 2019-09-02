@@ -7,77 +7,51 @@ import complete from './images/complete.svg';
 import './App.css';
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: [],
-    };
-
-    this.addTodo = this.addTodo.bind(this);
-    this.toggleComplete = this.toggleComplete.bind(this);
-    this.clearCompleted = this.clearCompleted.bind(this);
+  constructor() {
+    super();
+    this.state = { todos: [] };
   }
 
-  addTodo(todo) {
-    const newTodo = {
-      task: todo,
-      id: Date.now(),
-      completed: false,
-    };
+  addTodo = task => {
+    const newTodo = { task, id: Date.now(), completed: false };
+    const todos = [...this.state.todos, newTodo];
+    localStorage.setItem('todos', JSON.stringify(todos));
+    this.setState({ todos: [...this.state.todos, newTodo] });
+  };
 
-    this.setState(
-      {
-        data: [...this.state.data, newTodo],
-      },
-      () => {
-        localStorage.setItem('todos', JSON.stringify(this.state.data));
-      }
-    );
-  }
-
-  toggleComplete(id) {
-    const todos = this.state.data.map(todo => {
+  toggleComplete = id => {
+    const todos = this.state.todos.map(todo => {
       return todo.id === id ? { ...todo, completed: !todo.completed } : todo;
     });
-    this.setState({ data: todos }, () => {
-      localStorage.setItem('todos', JSON.stringify(this.state.data));
-    });
-  }
+    localStorage.setItem('todos', JSON.stringify([...todos]));
+    this.setState({ todos: todos });
+  };
 
-  clearCompleted(e) {
-    // get new array with only items not makrked as completed
-    const incompleteTodos = this.state.data.filter(todo => {
-      return !todo.completed;
-    });
-    this.setState({ data: incompleteTodos }, () => {
-      localStorage.setItem('todos', JSON.stringify(this.state.data));
-    });
-  }
+  clearCompleted = e => {
+    const incompleteTodos = this.state.todos.filter(todo => !todo.completed);
+    localStorage.setItem('todos', JSON.stringify([...incompleteTodos]));
+    this.setState({ todos: incompleteTodos });
+  };
 
   componentDidMount() {
     if (!!localStorage.getItem('todos')) {
-      this.setState({ data: JSON.parse(localStorage.getItem('todos')) });
+      this.setState({ todos: JSON.parse(localStorage.getItem('todos')) });
     }
   }
 
   render() {
-    const todos = this.state.data;
-    const anyMarkedComplete = todos.some(todo => !!todo.completed);
+    const todos = this.state.todos;
+    const anyMarkedComplete = todos.some(todo => todo.completed);
     const allTodosCleared = todos.length === 0;
     const todosPending = todos.filter(todo => !todo.completed).length;
-    const completedTodos = todos.filter(todo => !!todo.completed).length;
+    const completedTodos = todos.filter(todo => todo.completed).length;
+
     return (
       <div className="App">
         <TodoForm addTodo={this.addTodo} />
-        {/* <div>
-          {!!todosPending && <p>{todosPending} tasks need to get done.</p>}
-          {!todosPending && <p>You have nothing left to do. Go for a walk!</p>}
-          {!!completedTodos && <p>{completedTodos} tasks marked as done</p>}
-        </div> */}
         <TodoList
-          data={this.state.data}
+          todos={this.state.todos}
           toggleComplete={this.toggleComplete}
-          labelClick={this.labelClick}
         />
         {allTodosCleared && (
           <div className="Todo__all-clear">
