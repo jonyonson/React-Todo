@@ -11,51 +11,34 @@ class App extends React.Component {
     super(props);
     this.state = {
       data: [],
-      value: '',
     };
 
-    this.handleChange = this.handleChange.bind(this);
     this.addTodo = this.addTodo.bind(this);
     this.toggleComplete = this.toggleComplete.bind(this);
     this.clearCompleted = this.clearCompleted.bind(this);
   }
 
-  handleChange(e) {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  }
-
-  addTodo(e) {
-    e.preventDefault();
+  addTodo(todo) {
     const newTodo = {
-      task: this.state.value,
+      task: todo,
       id: Date.now(),
       completed: false,
     };
 
-    this.setState({ data: [...this.state.data, newTodo], value: '' }, () => {
-      localStorage.setItem('todos', JSON.stringify(this.state.data));
-    });
+    this.setState(
+      {
+        data: [...this.state.data, newTodo],
+      },
+      () => {
+        localStorage.setItem('todos', JSON.stringify(this.state.data));
+      }
+    );
   }
 
   toggleComplete(id) {
     const todos = this.state.data.map(todo => {
-      if (todo.id === id) {
-        return {
-          task: todo.task,
-          id: todo.id,
-          completed: !todo.completed,
-        };
-      } else {
-        return {
-          task: todo.task,
-          id: todo.id,
-          completed: todo.completed,
-        };
-      }
+      return todo.id === id ? { ...todo, completed: !todo.completed } : todo;
     });
-
     this.setState({ data: todos }, () => {
       localStorage.setItem('todos', JSON.stringify(this.state.data));
     });
@@ -66,22 +49,14 @@ class App extends React.Component {
     const incompleteTodos = this.state.data.filter(todo => {
       return !todo.completed;
     });
-    this.setState(
-      {
-        data: incompleteTodos,
-      },
-      () => {
-        localStorage.setItem('todos', JSON.stringify(this.state.data));
-      }
-    );
+    this.setState({ data: incompleteTodos }, () => {
+      localStorage.setItem('todos', JSON.stringify(this.state.data));
+    });
   }
 
   componentDidMount() {
     if (!!localStorage.getItem('todos')) {
-      console.log(typeof localStorage.getItem('todos'));
-      this.setState({
-        data: JSON.parse(localStorage.getItem('todos')),
-      });
+      this.setState({ data: JSON.parse(localStorage.getItem('todos')) });
     }
   }
 
@@ -93,11 +68,7 @@ class App extends React.Component {
     const completedTodos = todos.filter(todo => !!todo.completed).length;
     return (
       <div className="App">
-        <TodoForm
-          addTodo={this.addTodo}
-          handleChange={this.handleChange}
-          value={this.state.value}
-        />
+        <TodoForm addTodo={this.addTodo} />
         {/* <div>
           {!!todosPending && <p>{todosPending} tasks need to get done.</p>}
           {!todosPending && <p>You have nothing left to do. Go for a walk!</p>}
