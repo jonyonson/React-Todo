@@ -1,14 +1,15 @@
 import React from 'react';
 
 const Footer = props => {
+  const { pendingCount, completedCount, clearCompleted } = props;
   return (
     <footer className="App__footer">
-      {!!props.todosPending && (
-        <div className="App__footer__pending">{props.todosPending} Pending</div>
+      {!!pendingCount && (
+        <div className="App__footer__pending">{props.pendingCount} Pending</div>
       )}
-      {props.showClear && (
-        <div onClick={props.clearCompleted} className="App__footer__clear">
-          Clear {props.completedTodos} Completed
+      {!!props.completedCount && (
+        <div onClick={clearCompleted} className="App__footer__clear">
+          Clear {completedCount} Completed
         </div>
       )}
     </footer>

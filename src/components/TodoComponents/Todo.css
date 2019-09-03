@@ -1,8 +1,7 @@
 .Todo__all-clear {
   text-align: center;
-
 }
-.Todo__all-clear__image {
+.Todo__all-clear img {
   width: 220px;
   height: auto;
 }
