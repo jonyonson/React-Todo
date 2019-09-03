@@ -2,7 +2,7 @@ import React from 'react';
 import TodoForm from './components/TodoComponents/TodoForm';
 import TodoList from './components/TodoComponents/TodoList';
 import Footer from './components/Footer';
-import complete from './images/complete.svg';
+import AllClear from './components/AllClear';
 
 import './App.css';
 
@@ -41,28 +41,25 @@ class App extends React.Component {
 
   render() {
     const todos = this.state.todos;
-    const anyMarkedComplete = todos.some(todo => todo.completed);
-    const allTodosCleared = todos.length === 0;
+    const isEmpty = todos.length === 0;
     const todosPending = todos.filter(todo => !todo.completed).length;
-    const completedTodos = todos.filter(todo => todo.completed).length;
+    const completedCount = todos.filter(todo => todo.completed).length;
 
     return (
       <div className="App">
         <TodoForm addTodo={this.addTodo} />
+
         <TodoList
           todos={this.state.todos}
           toggleComplete={this.toggleComplete}
         />
-        {allTodosCleared && (
-          <div className="Todo__all-clear">
-            <img className="Todo__all-clear__image" src={complete} alt="" />
-          </div>
-        )}
+
+        <AllClear isEmpty={isEmpty} />
+
         <Footer
           clearCompleted={this.clearCompleted}
-          completedTodos={completedTodos}
-          showClear={anyMarkedComplete}
-          todosPending={todosPending}
+          completedCount={completedCount}
+          pendingCount={todosPending}
         />
       </div>
     );
